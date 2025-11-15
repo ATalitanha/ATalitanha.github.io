@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="./output.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<title>فرایند از ایده تا اجرا</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.icons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.icon-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: #2563EB;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.icon-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.icon-box i {
+  color: #F97316;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.icon-label {
+  font-size: 0.9rem;
+  color: #FBBF24;
+  font-weight: 500;
+  text-align: center;
+}
+
+.journey-map {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.journey-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  min-width: 120px;
+  z-index: 2;
+}
+
+.journey-step-text {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.journey-dot {
+  width: 14px;
+  height: 14px;
+  background-color: #F97316;
+  border-radius: 50%;
+  margin: 0.5rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.journey-line {
+  position: absolute;
+  height: 3px;
+  background-color: #FBBF24;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.journey-step:last-child .journey-line {
+  display: none;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* استایل‌های واکنش‌گرا */
+@media (max-width: 1024px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .journey-step-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-container {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .icon-box {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .icon-box i {
+    font-size: 1.7rem;
+  }
+  
+  .icon-label {
+    font-size: 0.8rem;
+  }
+  
+  .journey-step {
+    min-width: 100px;
+  }
+  
+  .journey-step-text {
+    font-size: 0.8rem;
+  }
+  
+  .footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 1.7rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .icons {
+    gap: 0.7rem;
+  }
+  
+  .icon-box {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .icon-box i {
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .icon-label {
+    font-size: 0.7rem;
+  }
+  
+  .journey-step {
+    min-width: 80px;
+  }
+  
+  .journey-step-text {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .journey-map {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .journey-line {
+    display: none;
+  }
+  
+  .journey-step {
+    flex-direction: row;
+    gap: 0.5rem;
+    min-width: auto;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .journey-step-text {
+    margin-bottom: 0;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<div class="slide-container">
+  <div>
+    <h1 class="title">فرایند از <span style="color:#F97316;">ایده</span> تا <span style="color:#F97316;">اجرا</span> برای یک سیستم نرم‌افزاری</h1>
+    <p class="subtitle">رویکرد عملی و کاربردی از مفهوم اولیه تا استقرار و تحویل محصول</p>
+    
+    <div class="icons-container">
+      <div class="icons">
+        <div class="icon-box">
+          <i class="fas fa-lightbulb"></i>
+          <div class="icon-label">ایده</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-users"></i>
+          <div class="icon-label">کاربران</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-file-alt"></i>
+          <div class="icon-label">نیازمندی‌ها</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-network-wired"></i>
+          <div class="icon-label">معماری</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-code"></i>
+          <div class="icon-label">توسعه</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-vial"></i>
+          <div class="icon-label">تست</div>
+        </div>
+        <div class="icon-box">
+          <i class="fas fa-rocket"></i>
+          <div class="icon-label">استقرار</div>
+        </div>
+      </div>
+
+      <div class="journey-map">
+        <div class="journey-step">
+          <div class="journey-step-text">ایده</div>
+          <div class="journey-dot"></div>
+          <div class="journey-line"></div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-text">کاربران</div>
+          <div class="journey-dot"></div>
+          <div class="journey-line"></div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-text">نیازمندی‌ها</div>
+          <div class="journey-dot"></div>
+          <div class="journey-line"></div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-text">معماری</div>
+          <div class="journey-dot"></div>
+          <div class="journey-line"></div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-text">توسعه</div>
+          <div class="journey-dot"></div>
+          <div class="journey-line"></div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-text">تست</div>
+          <div class="journey-dot"></div>
+          <div class="journey-line"></div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-step-text">استقرار</div>
+          <div class="journey-dot"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>فرایند از ایده تا اجرا | اسلاید ۱ از ۱۲</p>
+      <p>مراحل اصلی توسعه نرم‌افزار</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// اسکریپت برای مدیریت خطوط بین نقاط در نقشه سفر
+document.addEventListener('DOMContentLoaded', function() {
+  const journeySteps = document.querySelectorAll('.journey-step');
+  const journeyLines = document.querySelectorAll('.journey-line');
+  
+  // محاسبه و تنظیم طول خطوط
+  function updateJourneyLines() {
+    journeyLines.forEach((line, index) => {
+      if (index < journeySteps.length - 1) {
+        const currentStep = journeySteps[index];
+        const nextStep = journeySteps[index + 1];
+        
+        const currentRect = currentStep.getBoundingClientRect();
+        const nextRect = nextStep.getBoundingClientRect();
+        
+        // محاسبه فاصله بین نقاط
+        const distance = nextRect.left - currentRect.right;
+        
+        // تنظیم موقعیت و طول خط
+        line.style.width = `${distance}px`;
+        line.style.left = `${currentRect.width / 2}px`;
+      }
+    });
+  }
+  
+  // اجرای اولیه و هنگام تغییر اندازه پنجره
+  updateJourneyLines();
+  window.addEventListener('resize', updateJourneyLines);
+});
+</script>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 1; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('main.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+</body>
+</html>

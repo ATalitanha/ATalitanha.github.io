@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="./output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<title>برنامه‌ریزی توسعه</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: #2563EB;
+  padding: 1.5rem 2rem;
+  color: white;
+  border-bottom: 4px solid #F97316;
+}
+
+.header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2rem;
+}
+
+.description {
+  color: #1E293B;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-right: 4px solid #2563EB;
+}
+
+.timeline-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  min-height: 500px;
+  overflow: auto;
+}
+
+/* تایم‌لاین */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.month-column {
+  text-align: center;
+  font-weight: 600;
+  color: #1E293B;
+  flex: 1;
+  min-width: 0;
+}
+
+/* اسپرینت‌ها زیر ماه‌ها */
+.sprints-grid {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.month-sprints {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 0.5rem;
+}
+
+.sprint {
+  background: #2563EB;
+  color: white;
+  padding: 0.6rem 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  width: 90%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sprint-description {
+  font-size: 0.65rem;
+  margin-top: 0.2rem;
+  opacity: 0.9;
+  line-height: 1.2;
+}
+
+/* مایلستون‌ها */
+.milestones {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  margin-top: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.milestone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+.milestone-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.milestone.regular .milestone-marker { background: #F97316; }
+.milestone.success .milestone-marker { background: #10B981; }
+.milestone.risk .milestone-marker { background: #EF4444; }
+
+.milestone-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1E293B;
+  text-align: center;
+  max-width: 120px;
+}
+
+/* خط تایم‌لاین */
+.timeline-line {
+  position: absolute;
+  top: 12px;
+  right: 50px;
+  left: 50px;
+  height: 3px;
+  background: #CBD5E1;
+  z-index: 1;
+}
+
+/* بخش‌های اطلاعاتی */
+.info-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.info-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.info-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #2563EB;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+}
+
+.info-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+}
+
+.info-list li:last-child {
+  border-bottom: none;
+}
+
+.info-list li:before {
+  content: '•';
+  color: #2563EB;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+.risk-item {
+  color: #EF4444;
+  font-weight: 600;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  color: #6B7280;
+  font-size: 0.85rem;
+  border-top: 1px solid #E5E7EB;
+  background-color: #f9fafb;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.legend-color {
+  width: 18px;
+  height: 18px;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+}
+
+/* استایل‌های واکنش‌گرا */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .content {
+    padding: 1.5rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+  }
+  
+  .timeline-container {
+    padding: 1.5rem;
+  }
+  
+  .sprint {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .description {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .timeline-container {
+    padding: 1rem;
+  }
+  
+  .timeline-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .month-column {
+    min-width: 80px;
+    font-size: 0.9rem;
+  }
+  
+  .sprints-grid {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .month-sprints {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .sprint {
+    width: auto;
+    flex: 1;
+    min-width: 100px;
+  }
+  
+  .milestones {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .milestone {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  
+  .timeline-line {
+    display: none;
+  }
+  
+  .info-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer {
+    padding: 0.75rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .legend {
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .legend-item {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .content {
+    padding: 0.75rem;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .timeline-container {
+    padding: 0.75rem;
+  }
+  
+  .sprint {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.2rem;
+  }
+  
+  .sprint-description {
+    font-size: 0.6rem;
+  }
+  
+  .milestone-label {
+    font-size: 0.75rem;
+  }
+  
+  .info-box {
+    padding: 1rem;
+  }
+  
+  .info-title {
+    font-size: 1rem;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .legend-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 8; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+  <div class="header">
+    <h1>برنامه‌ریزی توسعه</h1>
+  </div>
+  
+  <div class="content">
+    <p class="description">
+      برنامه زمانی توسعه نرم‌افزار شامل اسپرینت‌های دو هفته‌ای، مایلستون‌ها و نقاط ریسک. زمان‌بندی بر اساس روش‌های چابک (اجایل) و اسکرام طراحی شده است.
+    </p>
+    
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #2563EB;"></div>
+        اسپرینت‌های توسعه
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #F97316;"></div>
+        مایلستون‌ها
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #10B981;"></div>
+        تحویل محصول
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #EF4444;"></div>
+        نقاط ریسک
+      </div>
+    </div>
+    
+    <div class="timeline-container">
+      <!-- تایم‌لاین با اسپرینت‌های زیر ماه‌ها -->
+      <div class="timeline">
+        <!-- ماه‌ها -->
+        <div class="timeline-header">
+          <div class="month-column">ماه ۱</div>
+          <div class="month-column">ماه ۲</div>
+          <div class="month-column">ماه ۳</div>
+          <div class="month-column">ماه ۴</div>
+          <div class="month-column">ماه ۵</div>
+          <div class="month-column">ماه ۶</div>
+        </div>
+
+        <!-- اسپرینت‌ها زیر ماه مربوطه -->
+        <div class="sprints-grid">
+          <!-- ماه ۱ -->
+          <div class="month-sprints">
+            <div class="sprint">
+              اسپرینت ۱
+              <div class="sprint-description">تحلیل و طراحی</div>
+            </div>
+            <div class="sprint">
+              اسپرینت ۲
+              <div class="sprint-description">معماری و دیتابیس</div>
+            </div>
+          </div>
+
+          <!-- ماه ۲ -->
+          <div class="month-sprints">
+            <div class="sprint">
+              اسپرینت ۳
+              <div class="sprint-description">ساختار اصلی</div>
+            </div>
+            <div class="sprint">
+              اسپرینت ۴
+              <div class="sprint-description">قابلیت‌های اصلی</div>
+            </div>
+          </div>
+
+          <!-- ماه ۳ -->
+          <div class="month-sprints">
+            <div class="sprint">
+              اسپرینت ۵
+              <div class="sprint-description">رابط کاربری</div>
+            </div>
+            <div class="sprint">
+              اسپرینت ۶
+              <div class="sprint-description">تکمیل MVP</div>
+            </div>
+          </div>
+
+          <!-- ماه ۴ -->
+          <div class="month-sprints">
+            <div class="sprint">
+              اسپرینت ۷
+              <div class="sprint-description">تست و بهبود</div>
+            </div>
+            <div class="sprint">
+              اسپرینت ۸
+              <div class="sprint-description">گزارش‌گیری</div>
+            </div>
+          </div>
+
+          <!-- ماه ۵ -->
+          <div class="month-sprints">
+            <div class="sprint">
+              اسپرینت ۹
+              <div class="sprint-description">امنیت و کارایی</div>
+            </div>
+            <div class="sprint">
+              اسپرینت ۱۰
+              <div class="sprint-description">بتای عمومی</div>
+            </div>
+          </div>
+
+          <!-- ماه ۶ -->
+          <div class="month-sprints">
+            <div class="sprint">
+              اسپرینت ۱۱
+              <div class="sprint-description">نسخه نهایی</div>
+            </div>
+            <div class="sprint">
+              اسپرینت ۱۲
+              <div class="sprint-description">پشتیبانی</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- مایلستون‌ها -->
+        <div class="milestones">
+          <div class="timeline-line"></div>
+          
+          <div class="milestone regular">
+            <div class="milestone-marker">
+              <i class="fas fa-flag"></i>
+            </div>
+            <div class="milestone-label">شروع پروژه<br>(ماه ۱)</div>
+          </div>
+          
+          <div class="milestone risk">
+            <div class="milestone-marker">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="milestone-label">بازبینی معماری<br>(ماه ۲)</div>
+          </div>
+          
+          <div class="milestone success">
+            <div class="milestone-marker">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="milestone-label">MVP<br>(ماه ۳)</div>
+          </div>
+          
+          <div class="milestone regular">
+            <div class="milestone-marker">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <div class="milestone-label">بتای عمومی<br>(ماه ۵)</div>
+          </div>
+          
+          <div class="milestone success">
+            <div class="milestone-marker">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="milestone-label">انتشار<br>(ماه ۶)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- اطلاعات تکمیلی -->
+      <div class="info-sections">
+        <div class="info-box">
+          <div class="info-title">ساختار بک‌لاگ</div>
+          <ul class="info-list">
+            <li>اپیک‌ها ← استوری‌ها ← تسک‌ها</li>
+            <li>اولویت‌بندی MoSCoW</li>
+            <li>تخمین به Story Point</li>
+            <li>DoR/DoD برای هر آیتم</li>
+            <li>بازبینی هفتگی بک‌لاگ</li>
+            <li>تنظیم ظرفیت اسپرینت</li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">مدیریت ریسک‌ها</div>
+          <ul class="info-list">
+            <li class="risk-item">بازبینی معماری (اسپرینت ۳)</li>
+            <li class="risk-item">تست کارایی (اسپرینت ۹)</li>
+            <li>مانیتورینگ مستمر کیفیت</li>
+            <li>برنامه پشتیبان‌گیری</li>
+            <li>بررسی امنیتی دوره‌ای</li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">تحویل‌های کلیدی</div>
+          <ul class="info-list">
+            <li>اسپرینت ۶: MVP قابل ارائه</li>
+            <li>اسپرینت ۱۰: نسخه بتا</li>
+            <li>اسپرینت ۱۲: نسخه تولید</li>
+            <li>مستندات فنی و کاربری</li>
+            <li>آموزش تیم پشتیبانی</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>فرایند از ایده تا اجرا | اسلاید ۸ از ۱۲</p>
+    <p>برنامه‌ریزی توسعه و مدیریت ریسک</p>
+  </div>
+</div>
+</body>
+</html>

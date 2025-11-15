@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="./output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<title>دیپلوی و استقرار</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin: 0 auto;
+}
+
+.header {
+  background: linear-gradient(90deg, #2563EB, #3B82F6);
+  padding: 1.5rem 2rem;
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 { 
+  font-size: 2.5rem; 
+  font-weight: 900; 
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.description {
+  color: #1E293B;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: center;
+  background-color: #F1F5F9;
+  padding: 1rem;
+  border-radius: 8px;
+  border-right: 4px solid #2563EB;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  background-color: #F8FAFC;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-left: 0.75rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.diagram-container {
+  width: 100%;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diagram-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.footer { 
+  margin-top: auto;
+  text-align: center; 
+  color: #6B7280; 
+  font-size: 0.9rem; 
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* استایل‌های واکنش‌گرا */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-container {
+    padding: 1.5rem;
+  }
+  
+  .header {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .diagram-container {
+    padding: 1rem;
+    margin: 1.5rem 0;
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .slide-container {
+    padding: 1rem;
+  }
+  
+  .header {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .diagram-container {
+    padding: 1rem;
+    margin: 1rem 0;
+    min-height: 250px;
+  }
+  
+  .footer {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 11; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+  <div class="header">
+    <h1>دیپلوی و استقرار</h1>
+  </div>
+  
+  <div class="content">
+    <p class="description">
+      نمودار زیر فرآیند CI/CD Pipeline را نشان می‌دهد که شامل مراحل Build, Test, Deploy و استراتژی‌های استقرار مختلف است. این فرآیند تضمین می‌کند که کد تولیدی به طور خودکار و ایمن به محیط تولید منتقل شود.
+    </p>
+    
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #2563EB;"></div>
+        <p>مراحل اصلی</p>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #F97316;"></div>
+        <p>استراتژی‌های استقرار</p>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #10B981;"></div>
+        <p>موفقیت</p>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #EF4444;"></div>
+        <p>خطا / بازگشت</p>
+      </div>
+    </div>
+
+    <div class="diagram-container">
+      <img src="./20251114_221521523.png" alt="">
+  </div>
+
+  <div class="footer">
+    فرایند از ایده تا اجرا | اسلاید ۱۱ از ۱۲
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const canvas = document.getElementById('cicdPipeline');
+  const container = canvas.parentElement;
+  
+  // تنظیم ابعاد کانواس بر اساس اندازه والد
+  function resizeCanvas() {
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+    drawPipeline();
+  }
+  
+  // تنظیم اولیه و گوش دادن به تغییر اندازه پنجره
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  
+  function drawPipeline() {
+    const ctx = canvas.getContext('2d');
+    
+    // پاک کردن کانواس
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const colors = {
+      main: '#2563EB',
+      deployStrategy: '#F97316',
+      success: '#10B981',
+      failure: '#EF4444'
+    };
+    
+    // محاسبه ابعاد بر اساس اندازه کانواس
+    const centerX = canvas.width / 2;
+    const startY = canvas.height * 0.15;
+    const stageWidth = Math.min(canvas.width * 0.25, 200);
+    const stageHeight = canvas.height * 0.12;
+    const gap = canvas.height * 0.08;
+    
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Draw pipeline stages
+    const stages = [
+      {name: 'ساخت (Build)', color: colors.main},
+      {name: 'تست (Test)', color: colors.main},
+      {name: 'استقرار (Deploy)', color: colors.main},
+    ];
+    
+    // رسم مراحل اصلی
+    stages.forEach((stage, i) => {
+      const x = centerX - stageWidth/2;
+      const y = startY + i*(stageHeight+gap);
+      
+      // رسم مستطیل با گوشه‌های گرد
+      ctx.beginPath();
+      ctx.roundRect(x, y, stageWidth, stageHeight, 8);
+      ctx.fillStyle = stage.color;
+      ctx.fill();
+      
+      // متن
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 16px Vazirmatn, Tahoma, sans-serif';
+      ctx.fillText(stage.name, centerX, y+stageHeight/2);
+      
+      // فلش بین مراحل (به جز مرحله آخر)
+      if (i < stages.length - 1) {
+        const arrowY = y + stageHeight + 5;
+        drawArrow(ctx, centerX, y + stageHeight, centerX, arrowY + gap - 10, '#64748B');
+      }
+    });
+    
+    // Draw deployment strategies
+    const deployX = centerX + stageWidth/2 + 50;
+    const deployY = startY + stageHeight + gap/2;
+    const boxWidth = Math.min(canvas.width * 0.18, 140);
+    const boxHeight = canvas.height * 0.1;
+    
+    const strategies = [
+      {name: 'Blue-Green', color: colors.deployStrategy},
+      {name: 'Canary', color: colors.deployStrategy},
+      {name: 'Rolling', color: colors.deployStrategy}
+    ];
+    
+    strategies.forEach((s, i) => {
+      const y = deployY + i*(boxHeight+15);
+      
+      // رسم مستطیل استراتژی
+      ctx.beginPath();
+      ctx.roundRect(deployX, y, boxWidth, boxHeight, 6);
+      ctx.fillStyle = s.color;
+      ctx.fill();
+      
+      // متن استراتژی
+      ctx.fillStyle = '#fff';
+      ctx.font = '14px Vazirmatn, Tahoma, sans-serif';
+      ctx.fillText(s.name, deployX+boxWidth/2, y+boxHeight/2);
+      
+      // فلش از Deploy به استراتژی
+      const fromX = centerX + stageWidth/2;
+      const fromY = startY + 2*(stageHeight+gap) - stageHeight/2;
+      const toX = deployX;
+      const toY = y + boxHeight/2;
+      
+      drawArrow(ctx, fromX, fromY, toX, toY, '#64748B');
+    });
+    
+    // Success and Failure indicators
+    const resultY = startY + 3*(stageHeight+gap);
+    const resultWidth = Math.min(canvas.width * 0.15, 120);
+    const resultHeight = canvas.height * 0.08;
+    
+    // موفقیت
+    ctx.beginPath();
+    ctx.roundRect(centerX - resultWidth - 30, resultY, resultWidth, resultHeight, 6);
+    ctx.fillStyle = colors.success;
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 14px Vazirmatn, Tahoma, sans-serif';
+    ctx.fillText('موفقیت', centerX - resultWidth/2 - 30, resultY+resultHeight/2);
+    
+    // فلش از استراتژی‌ها به موفقیت
+    strategies.forEach((s, i) => {
+      const fromX = deployX + boxWidth;
+      const fromY = deployY + i*(boxHeight+15) + boxHeight/2;
+      const toX = centerX - resultWidth - 30;
+      const toY = resultY + resultHeight/2;
+      
+      drawArrow(ctx, fromX, fromY, toX, toY, colors.success, 2);
+    });
+    
+    // خطا / بازگشت
+    ctx.beginPath();
+    ctx.roundRect(centerX + 30, resultY, resultWidth, resultHeight, 6);
+    ctx.fillStyle = colors.failure;
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 14px Vazirmatn, Tahoma, sans-serif';
+    ctx.fillText('خطا / بازگشت', centerX + resultWidth/2 + 30, resultY+resultHeight/2);
+    
+    // فلش از تست به خطا
+    const testFailX = centerX;
+    const testFailY = startY + (stageHeight+gap) + stageHeight;
+    drawArrow(ctx, testFailX, testFailY, centerX + resultWidth/2 + 30, resultY, colors.failure, 2);
+    
+    // فلش از استقرار به خطا
+    const deployFailX = centerX;
+    const deployFailY = startY + 2*(stageHeight+gap) + stageHeight;
+    drawArrow(ctx, deployFailX, deployFailY, centerX + resultWidth/2 + 30, resultY, colors.failure, 2);
+  }
+  
+  // تابع کمکی برای رسم فلش
+  function drawArrow(ctx, fromX, fromY, toX, toY, color, lineWidth = 2) {
+    ctx.beginPath();
+    ctx.moveTo(fromX, fromY);
+    ctx.lineTo(toX, toY);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+    
+    // سر فلش
+    const headlen = 8;
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+    
+    ctx.beginPath();
+    ctx.moveTo(toX, toY);
+    ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI/6), toY - headlen * Math.sin(angle - Math.PI/6));
+    ctx.moveTo(toX, toY);
+    ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI/6), toY - headlen * Math.sin(angle + Math.PI/6));
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+  }
+});
+</script>
+</body>
+</html>

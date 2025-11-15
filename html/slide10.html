@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="./output.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    <title>تست و تضمین کیفیت</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1280px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #2563EB, #3B82F6);
+            padding: 1.5rem 2rem;
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 { 
+            font-size: 2.5rem; 
+            font-weight: 900; 
+            margin: 0;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .description {
+            color: #1E293B;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+            background-color: #F1F5F9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-right: 4px solid #2563EB;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            background-color: #F8FAFC;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-left: 0.75rem;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .diagram-container {
+            width: 100%;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pyramid-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563EB;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        .pyramid-layer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            color: white;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            box-sizing: border-box;
+        }
+
+        .pyramid-layer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            z-index: 10;
+        }
+
+        /* هرم معکوس - لایه پایین باریک، لایه بالا پهن */
+        .layer-performance {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            height: 60px;
+            width: 40%;
+            border-radius: 8px 8px 0 0;
+            z-index: 4;
+        }
+
+        .layer-e2e {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            height: 70px;
+            width: 60%;
+            z-index: 3;
+        }
+
+        .layer-integration {
+            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+            height: 90px;
+            width: 80%;
+            z-index: 2;
+        }
+
+        .layer-unit {
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            height: 120px;
+            width: 100%;
+            border-radius: 0 0 8px 8px;
+            z-index: 1;
+        }
+
+        .layer-content {
+            padding: 0.5rem;
+            width: 100%;
+        }
+
+        .layer-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .layer-desc {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .percentage {
+            position: absolute;
+            left: -50px;
+            font-weight: 700;
+            color: #1E293B;
+            background-color: #F1F5F9;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .percentage-performance {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .percentage-e2e {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .percentage-integration {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .percentage-unit {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .performance-details {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .performance-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .performance-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .performance-list li {
+            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .footer { 
+            margin-top: auto;
+            text-align: center; 
+            color: #6B7280; 
+            font-size: 0.9rem; 
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* استایل‌های واکنش‌گرا */
+        @media (max-width: 1024px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-container {
+                padding: 1.5rem;
+            }
+            
+            .header {
+                padding: 1.25rem 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 1.75rem;
+            }
+            
+            .pyramid-layer {
+                height: 80px !important;
+            }
+            
+            .layer-unit { height: 80px; }
+            .layer-integration { height: 70px; }
+            .layer-e2e { height: 60px; }
+            .layer-performance { height: 50px; }
+            
+            .percentage {
+                position: static;
+                margin-top: 0.5rem;
+                transform: none !important;
+            }
+            
+            .performance-list {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .slide-container {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 1rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .legend {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .diagram-container {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+            
+            .pyramid-layer {
+                height: 70px !important;
+            }
+            
+            .layer-unit { height: 70px; }
+            .layer-integration { height: 60px; }
+            .layer-e2e { height: 50px; }
+            .layer-performance { height: 40px; }
+            
+            .layer-title {
+                font-size: 0.9rem;
+            }
+            
+            .layer-desc {
+                font-size: 0.7rem;
+            }
+            
+            .percentage {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.5rem;
+            }
+            
+            .footer {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .performance-details {
+                padding: 0.75rem 1rem;
+            }
+            
+            .performance-list li {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 10; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+    <div class="header">
+        <h1>تست و تضمین کیفیت</h1>
+    </div>
+    
+    <div class="content">
+        <p class="description">
+            استراتژی تست کامل باید شامل سطوح مختلف تست باشد که در هرم تست نمایش داده شده است. هر لایه هزینه و سرعت متفاوتی دارد و باید به نسبت مناسب استفاده شود.
+        </p>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #2563EB;"></div>
+                <p>تست واحد (Unit Test)</p>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #F97316;"></div>
+                <p>تست یکپارچگی (Integration Test)</p>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #10B981;"></div>
+                <p>تست کارکردی و E2E</p>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #8B5CF6;"></div>
+                <p>تست کارایی (Performance)</p>
+            </div>
+        </div>
+
+        <div class="diagram-container">
+            <div class="pyramid-title">هرم استراتژی تست</div>
+            <div class="pyramid">
+                <!-- لایه تست کارایی (بالا - باریک) -->
+                <div class="pyramid-layer layer-performance">
+                    <div class="layer-content">
+                        <div class="layer-title">تست کارایی</div>
+                        <div class="layer-desc">(هدفمند، تخصصی)</div>
+                    </div>
+                    <div class="percentage percentage-performance">~3%</div>
+                </div>
+                
+                <!-- لایه تست E2E -->
+                <div class="pyramid-layer layer-e2e">
+                    <div class="layer-content">
+                        <div class="layer-title">تست E2E</div>
+                        <div class="layer-desc">(کم، پرهزینه)</div>
+                    </div>
+                    <div class="percentage percentage-e2e">~7%</div>
+                </div>
+                
+                <!-- لایه تست یکپارچگی -->
+                <div class="pyramid-layer layer-integration">
+                    <div class="layer-content">
+                        <div class="layer-title">تست یکپارچگی</div>
+                        <div class="layer-desc">(متوسط، هزینه متوسط)</div>
+                    </div>
+                    <div class="percentage percentage-integration">~20%</div>
+                </div>
+                
+                <!-- لایه تست واحد (پایین - پهن) -->
+                <div class="pyramid-layer layer-unit">
+                    <div class="layer-content">
+                        <div class="layer-title">تست واحد</div>
+                        <div class="layer-desc">(زیاد، کم‌هزینه، سریع)</div>
+                    </div>
+                    <div class="percentage percentage-unit">~70%</div>
+                </div>
+            </div>
+            
+            <div class="performance-details">
+                <div class="performance-title">انواع تست کارایی</div>
+                <ul class="performance-list">
+                    <li>بار (Load)</li>
+                    <li>استرس (Stress)</li>
+                    <li>پایداری (Endurance)</li>
+                    <li>مقیاس‌پذیری (Scalability)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        فرایند از ایده تا اجرا | اسلاید ۱۰ از ۱۲
+    </div>
+</div>
+
+<script>
+    // افزودن افکت‌های تعاملی ساده
+    document.addEventListener('DOMContentLoaded', function() {
+        const layers = document.querySelectorAll('.pyramid-layer');
+        
+        layers.forEach(layer => {
+            layer.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
+                this.style.zIndex = '10';
+            });
+            
+            layer.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                this.style.zIndex = '';
+            });
+        });
+    });
+</script>
+</body>
+</html>

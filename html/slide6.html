@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="./output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<title>معماری سیستم</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: #2563EB;
+  padding: 1.5rem 2rem;
+  color: white;
+  border-bottom: 4px solid #F97316;
+}
+
+.header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2rem;
+}
+
+.description {
+  color: #1E293B;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-right: 4px solid #2563EB;
+}
+
+.architecture-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  min-height: 500px;
+  overflow: auto;
+}
+
+.layer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.layer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.layer-box {
+  background: #3B82F6;
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  z-index: 2;
+}
+
+.layer-box.frontend { background: #3B82F6; }
+.layer-box.gateway { 
+  background: #F97316; 
+  max-width: 400px;
+}
+.layer-box.backend { background: #10B981; }
+.layer-box.database { 
+  background: #6366F1; 
+  max-width: 500px;
+}
+
+.layer-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.components {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.component {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  backdrop-filter: blur(10px);
+}
+
+.connection {
+  position: absolute;
+  width: 3px;
+  background: #64748B;
+  z-index: 1;
+}
+
+.connection-vertical {
+  width: 3px;
+  background: #64748B;
+  height: 40px;
+  margin: 0.5rem 0;
+}
+
+.connection-horizontal {
+  height: 3px;
+  background: #64748B;
+  flex: 1;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  margin: 0.5rem 0;
+}
+
+.arrow-down {
+  border-width: 8px 6px 0 6px;
+  border-color: #64748B transparent transparent transparent;
+}
+
+.arrow-up {
+  border-width: 0 6px 8px 6px;
+  border-color: transparent transparent #64748B transparent;
+}
+
+.connection-label {
+  position: absolute;
+  background: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #64748B;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 3;
+}
+
+.label-http { right: 20%; top: 25%; }
+.label-grpc { right: 20%; top: 50%; }
+.label-db { right: 20%; top: 75%; }
+
+.external-services {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #94A3B8;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.external-services::before {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 12px;
+  border-color: transparent transparent transparent #94A3B8;
+}
+
+.cache-connection {
+  position: absolute;
+  right: 30%;
+  top: 60%;
+  background: #64748B;
+  width: 2px;
+  height: 100px;
+  z-index: 1;
+}
+
+.cache-connection::before {
+  content: 'Cache';
+  position: absolute;
+  right: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #64748B;
+  border: 1px solid #e5e7eb;
+}
+
+.notes {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.note {
+  background: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #64748B;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  color: #6B7280;
+  font-size: 0.85rem;
+  border-top: 1px solid #E5E7EB;
+  background-color: #f9fafb;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.legend-color {
+  width: 18px;
+  height: 18px;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+}
+
+/* استایل‌های واکنش‌گرا */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .content {
+    padding: 1.5rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+  }
+  
+  .architecture-container {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .description {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .architecture-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .layer-box {
+    padding: 1rem 1.5rem;
+  }
+  
+  .external-services {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .external-services::before {
+    display: none;
+  }
+  
+  .cache-connection {
+    display: none;
+  }
+  
+  .connection-label {
+    position: static;
+    margin: 0.25rem 0;
+  }
+  
+  .footer {
+    padding: 0.75rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .legend {
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .legend-item {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .content {
+    padding: 0.75rem;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .architecture-container {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .layer-box {
+    padding: 0.75rem 1rem;
+  }
+  
+  .layer-title {
+    font-size: 1.1rem;
+  }
+  
+  .component {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .legend-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.2rem;
+  }
+  
+  .description {
+    font-size: 0.85rem;
+  }
+  
+  .components {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .component {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .legend-item {
+    font-size: 0.85rem;
+  }
+  
+  .footer {
+    font-size: 0.8rem;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 6; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+  <div class="header">
+    <h1>معماری سیستم</h1>
+  </div>
+  
+  <div class="content">
+    <p class="description">
+      دیاگرام زیر معماری کلی سیستم نرم‌افزاری را نمایش می‌دهد. شامل لایه‌های Frontend، Backend، API Gateway و Database است و ارتباط بین اجزای مختلف سیستم را نشان می‌دهد.
+    </p>
+    
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #3B82F6;"></div>
+        Frontend
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #F97316;"></div>
+        API Gateway
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #10B981;"></div>
+        Backend
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #6366F1;"></div>
+        Database
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background-color: #94A3B8;"></div>
+        External Services
+      </div>
+    </div>
+    
+    <div class="architecture-container">
+      <!-- Frontend Layer -->
+      <div class="layer">
+        <div class="layer-content">
+          <div class="layer-box frontend">
+            <div class="layer-title">Frontend Layer</div>
+            <div class="components">
+              <div class="component">وب اپلیکیشن SPA</div>
+              <div class="component">اپ موبایل</div>
+              <div class="component">پنل مدیریت</div>
+            </div>
+          </div>
+          <div class="connection-vertical"></div>
+          <div class="arrow arrow-down"></div>
+          <div class="connection-label label-http">HTTP/REST</div>
+        </div>
+      </div>
+
+      <!-- API Gateway -->
+      <div class="layer">
+        <div class="layer-content">
+          <div class="layer-box gateway">
+            <div class="layer-title">API Gateway / BFF</div>
+            <div class="components">
+              <div class="component">احراز هویت</div>
+              <div class="component">مدیریت درخواست‌ها</div>
+            </div>
+          </div>
+          <div class="connection-vertical"></div>
+          <div class="arrow arrow-down"></div>
+          <div class="connection-label label-grpc">gRPC/REST</div>
+        </div>
+      </div>
+
+      <!-- Backend Services -->
+      <div class="layer">
+        <div class="layer-content">
+          <div class="layer-box backend">
+            <div class="layer-title">Backend Services</div>
+            <div class="components">
+              <div class="component">سرویس کاربران</div>
+              <div class="component">سرویس تجارت</div>
+              <div class="component">سرویس اعلان</div>
+              <div class="component">سرویس گزارش</div>
+            </div>
+          </div>
+          <div class="connection-vertical"></div>
+          <div class="arrow arrow-down"></div>
+          <div class="connection-label label-db">SQL/NoSQL</div>
+        </div>
+        
+        <!-- External Services -->
+        <div class="external-services">
+          External Services
+        </div>
+        
+        <!-- Cache Connection -->
+        <div class="cache-connection"></div>
+      </div>
+
+      <!-- Database Layer -->
+      <div class="layer">
+        <div class="layer-content">
+          <div class="layer-box database">
+            <div class="layer-title">Database Layer</div>
+            <div class="components">
+              <div class="component">SQL Database</div>
+              <div class="component">NoSQL Database</div>
+              <div class="component">Cache</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="notes">
+        <div class="note">مقیاس‌پذیری افقی</div>
+        <div class="note">امنیت و احراز هویت</div>
+        <div class="note">پایداری داده‌ها</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>فرایند از ایده تا اجرا | اسلاید ۶ از ۱۲</p>
+    <p>معماری و لایه‌های سیستم نرم‌افزاری</p>
+  </div>
+</div>
+</body>
+</html>

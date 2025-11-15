@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="./output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<title>جمع‌بندی و قدم بعدی</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin: 0 auto;
+}
+
+.header {
+  background: linear-gradient(90deg, #2563EB, #3B82F6);
+  padding: 1.5rem 2rem;
+  color: white;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 { 
+  font-size: 2.5rem; 
+  font-weight: 900; 
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.intro {
+  color: #1E293B;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: center;
+  background-color: #F1F5F9;
+  padding: 1rem;
+  border-radius: 8px;
+  border-right: 4px solid #2563EB;
+}
+
+.section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border: 1px solid #e5e7eb;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #2563EB;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #EFF6FF;
+  border-radius: 8px;
+  margin-left: 0.75rem;
+}
+
+.bullet-list {
+  padding-right: 0;
+}
+
+.bullet-item {
+  position: relative;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.bullet-item:hover {
+  background-color: #F8FAFC;
+}
+
+.bullet-icon {
+  color: #F97316;
+  margin-left: 0.75rem;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.bullet-text {
+  flex: 1;
+  line-height: 1.6;
+}
+
+/* Tooltip - اصلاح شده برای نمایش در بالا/پایین */
+.tooltip {
+  visibility: hidden;
+  background-color: #1E293B;
+  color: #fff;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 100;
+  font-size: 0.85rem;
+  width: 280px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  line-height: 1.5;
+}
+
+/* موقعیت tooltip برای آیتم‌های مختلف */
+.bullet-item:nth-child(odd) .tooltip {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.bullet-item:nth-child(even) .tooltip {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.bullet-item:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* پیکان برای tooltip */
+.tooltip::after {
+  content: "";
+  position: absolute;
+  border-width: 6px;
+  border-style: solid;
+}
+
+.bullet-item:nth-child(odd) .tooltip::after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: #1E293B transparent transparent transparent;
+}
+
+.bullet-item:nth-child(even) .tooltip::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: transparent transparent #1E293B transparent;
+}
+
+.footer { 
+  margin-top: auto;
+  text-align: center; 
+  color: #6B7280; 
+  font-size: 0.9rem; 
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .tooltip {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-container {
+    padding: 1.5rem;
+  }
+  
+  .header {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .section {
+    padding: 1.25rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+  
+  .section-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .tooltip {
+    display: none; /* مخفی کردن tooltip در موبایل */
+  }
+}
+
+@media (max-width: 640px) {
+  .slide-container {
+    padding: 1rem;
+  }
+  
+  .header {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .section {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+  }
+  
+  .bullet-item {
+    margin-bottom: 0.5rem;
+    padding: 0.25rem;
+  }
+  
+  .bullet-text {
+    font-size: 0.9rem;
+  }
+  
+  .footer {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .section-icon {
+    margin-left: 0;
+  }
+  
+  .bullet-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .bullet-icon {
+    margin-left: 0;
+    margin-bottom: 0.25rem;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 12; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+  <div class="header">
+    <h1>جمع‌بندی و قدم بعدی</h1>
+  </div>
+  
+  <div class="content">
+    <p class="intro">
+      نگاهی جامع به مسیری که از تعریف ایده تا استقرار نهایی سیستم نرم‌افزاری طی کردیم. این خلاصه کلیدی به ما کمک می‌کند تا با دید روشن‌تری به نگهداری و توسعه‌های آینده بپردازیم.
+    </p>
+    
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <i class="fas fa-route" style="color: #2563EB;"></i>
+        </div>
+        <p>مرور فرآیند: از ایده تا اجرا</p>
+      </div>
+      <div class="bullet-list">
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">تعریف مسئله و کاربران:</span> شناسایی نیازمندی‌ها و طراحی جریان کاربری مناسب</p>
+          <div class="tooltip">شامل مصاحبه با کاربران و تحلیل نیازها برای طراحی محصول دقیق</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">طراحی معماری و دیتابیس:</span> ایجاد ساختار فنی قابل توسعه و مقیاس‌پذیر</p>
+          <div class="tooltip">انتخاب معماری مناسب مثل میکروسرویس یا لایه‌ای و طراحی اسکیمای دیتابیس</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">برنامه‌ریزی، پیاده‌سازی و تست:</span> توسعه با کیفیت و اطمینان از عملکرد صحیح</p>
+          <div class="tooltip">شامل نوشتن تست واحد، تست یکپارچگی و بررسی عملکرد سیستم</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">دیپلوی و استقرار:</span> انتقال سیستم به محیط عملیاتی با حداقل ریسک</p>
+          <div class="tooltip">استفاده از CI/CD، استراتژی‌های Blue-Green و Canary برای استقرار امن</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <i class="fas fa-check-double" style="color: #2563EB;"></i>
+        </div>
+        <p>تصمیمات کلیدی و موارد باز</p>
+      </div>
+      <div class="bullet-list">
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #F97316;">تصمیمات گرفته شده:</span> استفاده از معماری میکروسرویس، استقرار روی کلود، پیاده‌سازی CI/CD</p>
+          <div class="tooltip">این تصمیمات باعث مقیاس‌پذیری، انعطاف و انتشار سریع‌تر سیستم می‌شوند</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #F97316;">موارد باز:</span> استراتژی مقیاس‌پذیری، طرح بازیابی از فاجعه (DR)، پشتیبانی چند زبانه</p>
+          <div class="tooltip">مواردی که نیاز به تصمیمات بعدی و برنامه‌ریزی بیشتر دارند</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <i class="fas fa-flag" style="color: #2563EB;"></i>
+        </div>
+        <p>مایلستون‌های آینده</p>
+      </div>
+      <div class="bullet-list">
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">Q۱:</span> راه‌اندازی نسخه بتا و جمع‌آوری بازخورد کاربران (مسئول: تیم محصول)</p>
+          <div class="tooltip">بررسی بازخورد اولیه کاربران برای اصلاح مسیر محصول</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">Q۲:</span> انتشار نسخه ۱.۰ با قابلیت‌های اصلی (مسئول: تیم توسعه)</p>
+          <div class="tooltip">انتشار نسخه پایدار محصول با ویژگی‌های کلیدی</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #2563EB;">Q۳:</span> توسعه API برای یکپارچه‌سازی با سیستم‌های خارجی (مسئول: تیم Backend)</p>
+          <div class="tooltip">ارتباط و تبادل داده با سیستم‌های خارجی از طریق API</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        <div class="section-icon">
+          <i class="fas fa-tools" style="color: #2563EB;"></i>
+        </div>
+        <p>نگهداری و توسعه پایدار</p>
+      </div>
+      <div class="bullet-list">
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #F97316;">مانیتورینگ مداوم:</span> پایش عملکرد، خطاها و امنیت با ابزارهای مناسب</p>
+          <div class="tooltip">استفاده از لاگ‌ها و داشبوردهای مانیتورینگ</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #F97316;">به‌روزرسانی منظم:</span> وصله‌های امنیتی، بهبود عملکرد و رفع باگ‌ها</p>
+          <div class="tooltip">برنامه‌ریزی برای به‌روزرسانی دوره‌ای سیستم</div>
+        </div>
+        <div class="bullet-item">
+          <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+          <p class="bullet-text"><span style="color: #F97316;">جمع‌آوری بازخورد:</span> بررسی مداوم نیازهای کاربران و تکامل محصول</p>
+          <div class="tooltip">بازخورد کاربران، تحلیل داده‌ها و بهبود مستمر محصول</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    فرایند از ایده تا اجرا | اسلاید ۱۲ از ۱۲
+  </div>
+</div>
+</body>
+</html>

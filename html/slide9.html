@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="./output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<title>پیاده‌سازی: کد و کیفیت</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: #2563EB;
+  padding: 1.5rem 2rem;
+  color: white;
+  border-bottom: 4px solid #F97316;
+}
+
+.header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2rem;
+}
+
+.intro {
+  color: #1E293B;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-right: 4px solid #2563EB;
+}
+
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #2563EB;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.section-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #EFF6FF;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.75rem;
+  color: #2563EB;
+}
+
+.bullet-list {
+  padding-right: 0;
+}
+
+.bullet-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-right: 3px solid #2563EB;
+  transition: all 0.3s ease;
+}
+
+.bullet-item:hover {
+  background-color: #e2e8f0;
+  transform: translateX(-5px);
+}
+
+.bullet-icon {
+  color: #F97316;
+  margin-left: 0.75rem;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.bullet-text {
+  flex: 1;
+  line-height: 1.6;
+  color: #1E293B;
+}
+
+.highlight-blue {
+  color: #2563EB;
+  font-weight: 600;
+}
+
+.highlight-orange {
+  color: #F97316;
+  font-weight: 600;
+}
+
+.highlight-green {
+  color: #10B981;
+  font-weight: 600;
+}
+
+.code-examples {
+  background: #1E293B;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.code-title {
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-sample {
+  background-color: #0F172A;
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  color: #E2E8F0;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border: 1px solid #334155;
+}
+
+.code-comment {
+  color: #64748B;
+  font-style: italic;
+}
+
+.code-keyword {
+  color: #F97316;
+}
+
+.code-function {
+  color: #60A5FA;
+}
+
+.code-string {
+  color: #10B981;
+}
+
+.code-type {
+  color: #F472B6;
+}
+
+.code-import {
+  color: #A78BFA;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  color: #6B7280;
+  font-size: 0.85rem;
+  border-top: 1px solid #E5E7EB;
+  background-color: #f9fafb;
+}
+
+/* استایل‌های واکنش‌گرا */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .content {
+    padding: 1.5rem;
+  }
+  
+  .intro {
+    font-size: 1rem;
+    padding: 1.25rem;
+  }
+  
+  .sections-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .intro {
+    padding: 1rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section {
+    padding: 1.25rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+  }
+  
+  .bullet-item {
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .code-examples {
+    padding: 1rem;
+  }
+  
+  .code-sample {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .footer {
+    padding: 0.75rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .content {
+    padding: 0.75rem;
+  }
+  
+  .intro {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 0.75rem;
+  }
+  
+  .section {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .section-icon {
+    margin-left: 0;
+  }
+  
+  .bullet-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .bullet-icon {
+    margin-left: 0;
+  }
+  
+  .code-sample {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 9; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+  <div class="header">
+    <h1>پیاده‌سازی: کد و کیفیت</h1>
+  </div>
+  
+  <div class="content">
+    <p class="intro">
+      پیاده‌سازی اصولی کد، کلید تولید یک سیستم نرم‌افزاری قابل اطمینان و قابل نگهداری است. ساختار مناسب، مدیریت خطا و اعتبارسنجی درست، تضمین‌کننده کیفیت محصول نهایی هستند.
+    </p>
+
+    <div class="sections-grid">
+      <!-- ساختار پروژه -->
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon"><i class="fas fa-folder-tree"></i></div>
+          <p>ساختار پروژه</p>
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">معماری لایه‌ای: <span class="highlight-blue">جداسازی نگرانی‌ها</span> با الگوی MVC، Clean Architecture یا Hexagonal</p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">مدیریت وابستگی‌ها: استفاده از <span class="highlight-orange">Dependency Injection</span> برای کاهش وابستگی مستقیم بین کامپوننت‌ها</p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">ماژول‌بندی: تقسیم پروژه به <span class="highlight-blue">ماژول‌های مستقل</span> با مسئولیت‌های مشخص</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- لایه‌های کد -->
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon"><i class="fas fa-code"></i></div>
+          <p>لایه‌های کد</p>
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">لایه ارائه (Presentation): رابط کاربری، API Endpoints و مدیریت درخواست‌ها</p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">لایه منطق کسب‌و‌کار (Business Logic): <span class="highlight-orange">قوانین و فرآیندهای کسب‌و‌کار</span></p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">لایه دسترسی به داده (Data Access): <span class="highlight-blue">Repository Pattern</span> برای مستقل‌سازی منطق کسب‌و‌کار از لایه داده</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- اعتبارسنجی و امنیت -->
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon"><i class="fas fa-shield-alt"></i></div>
+          <p>اعتبارسنجی و امنیت</p>
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">اعتبارسنجی ورودی‌ها: بررسی تمام داده‌های ورودی <span class="highlight-orange">قبل از پردازش</span> با استفاده از Schema Validation</p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">مقابله با حملات رایج: XSS، SQL Injection، CSRF با <span class="highlight-blue">Sanitization و Parameterized Queries</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- مدیریت خطا -->
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <p>مدیریت خطا</p>
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">استراتژی جامع: <span class="highlight-blue">طبقه‌بندی خطاها</span> (کاربری، سیستمی، شبکه)</p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">لاگ‌گیری: ثبت خطاها با جزئیات کافی برای <span class="highlight-orange">عیب‌یابی سریع</span> بدون افشای اطلاعات حساس</p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size: 0.5rem;"></i>
+            <p class="bullet-text">خطاهای کاربرپسند: نمایش پیام‌های واضح و راهنما برای کاربر نهایی</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- مثال کد Next.js -->
+    <div class="code-examples">
+      <div class="code-title">
+        <i class="fab fa-react text-blue-400"></i>
+        <span>مثال کد: ساختار مدرن Next.js با TypeScript</span>
+      </div>
+      
+      <div dir="ltr" class="code-sample">
+        <span class="code-comment">// app/api/users/route.ts - API Route با اعتبارسنجی</span><br>
+        <span class="code-import">import</span> { NextRequest, NextResponse } <span class="code-import">from</span> <span class="code-string">'next/server'</span><br>
+        <span class="code-import">import</span> { z } <span class="code-import">from</span> <span class="code-string">'zod'</span><br>
+        <span class="code-import">import</span> { userService } <span class="code-import">from</span> <span class="code-string">'@/lib/services/userService'</span><br><br>
+        
+        <span class="code-keyword">const</span> createUserSchema = z.<span class="code-function">object</span>({<br>
+        &nbsp;&nbsp;name: z.<span class="code-function">string</span>().<span class="code-function">min</span>(2),<br>
+        &nbsp;&nbsp;email: z.<span class="code-function">string</span>().<span class="code-function">email</span>(),<br>
+        &nbsp;&nbsp;role: z.<span class="code-function">enum</span>([<span class="code-string">'user'</span>, <span class="code-string">'admin'</span>])<br>
+        })<br><br>
+        
+        <span class="code-keyword">export async function</span> <span class="code-function">POST</span>(request: NextRequest) {<br>
+        &nbsp;&nbsp;<span class="code-keyword">try</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> body = <span class="code-keyword">await</span> request.<span class="code-function">json</span>()<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> validatedData = createUserSchema.<span class="code-function">parse</span>(body)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> user = <span class="code-keyword">await</span> <span class="code-function">userService</span>.<span class="code-function">createUser</span>(validatedData)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> NextResponse.<span class="code-function">json</span>(user, { status: 201 })<br>
+        &nbsp;&nbsp;} <span class="code-keyword">catch</span> (error) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> (error <span class="code-keyword">instanceof</span> z.ZodError) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> NextResponse.<span class="code-function">json</span>(<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ error: <span class="code-string">'داده‌های ورودی نامعتبر'</span> },<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ status: 400 }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> NextResponse.<span class="code-function">json</span>(<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ error: <span class="code-string">'خطای سرور'</span> },<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ status: 500 }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </div>
+
+      <div class="code-sample">
+        <span class="code-comment">// lib/services/userService.ts - سرویس با Dependency Injection</span><br>
+        <span class="code-import">import</span> { db } <span class="code-import">from</span> <span class="code-string">'@/lib/db'</span><br>
+        <span class="code-import">import</span> { hashPassword } <span class="code-import">from</span> <span class="code-string">'@/lib/auth'</span><br><br>
+        
+        <span class="code-keyword">interface</span> <span class="code-type">CreateUserInput</span> {<br>
+        &nbsp;&nbsp;name: <span class="code-type">string</span><br>
+        &nbsp;&nbsp;email: <span class="code-type">string</span><br>
+        &nbsp;&nbsp;role: <span class="code-string">'user'</span> | <span class="code-string">'admin'</span><br>
+        }<br><br>
+        
+        <span class="code-keyword">class</span> <span class="code-type">UserService</span> {<br>
+        &nbsp;&nbsp;<span class="code-keyword">constructor</span>(<span class="code-keyword">private</span> database: <span class="code-type">typeof</span> db) {}<br><br>
+        
+        &nbsp;&nbsp;<span class="code-keyword">async</span> <span class="code-function">createUser</span>(data: <span class="code-type">CreateUserInput</span>) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// منطق کسب‌وکار و اعتبارسنجی</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">const</span> existingUser = <span class="code-keyword">await this</span>.database.user.<span class="code-function">findUnique</span>({<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where: { email: data.email }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> (existingUser) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">throw new</span> <span class="code-type">Error</span>(<span class="code-string">'کاربر با این ایمیل وجود دارد'</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return await this</span>.database.user.<span class="code-function">create</span>({<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data: { ...data }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;})<br>
+        &nbsp;&nbsp;}<br>
+        }<br><br>
+        
+        <span class="code-keyword">export const</span> userService = <span class="code-keyword">new</span> <span class="code-type">UserService</span>(db)
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <p>فرایند از ایده تا اجرا | اسلاید ۹ از ۱۲</p>
+    <p>پیاده‌سازی: کد و کیفیت</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="stylesheet" href="./output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<title>نیازمندی‌ها و Use Cases</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vazirmatn', sans-serif;
+  direction: rtl;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin: 1rem auto;
+  overflow: hidden;
+}
+
+.header {
+  background-color: #2563EB;
+  padding: 1.5rem 2rem;
+  color: white;
+  border-bottom: 4px solid #F97316;
+}
+
+.header h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 2.25rem;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+}
+
+.intro {
+  color: #1E293B;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border-right: 4px solid #2563EB;
+}
+
+.section {
+  margin-bottom: 2.5rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid #e5e7eb;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #2563EB;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background-color: #EFF6FF;
+  border-radius: 8px;
+  margin-left: 0.75rem;
+  color: #2563EB;
+}
+
+.bullet-list {
+  padding-right: 0;
+}
+
+.bullet-item {
+  position: relative;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  background-color: #F8FAFC;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid #2563EB;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.bullet-item:hover {
+  background-color: #e2e8f0;
+  transform: translateX(-5px);
+}
+
+.bullet-icon {
+  color: #F97316;
+  margin-left: 0.75rem;
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.bullet-text {
+  flex: 1;
+  line-height: 1.6;
+}
+
+.priority-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-left: 8px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.must-have { background-color: #FEE2E2; color: #B91C1C; }
+.should-have { background-color: #FEF3C7; color: #B45309; }
+.could-have { background-color: #E0F2FE; color: #0369A1; }
+.wont-have { background-color: #F3F4F6; color: #4B5563; }
+
+.use-case-item {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #2563EB;
+  background-color: #F8FAFC;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.use-case-item:hover {
+  background-color: #e2e8f0;
+  transform: translateX(-5px);
+}
+
+.use-case-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.use-case-title i {
+  margin-left: 8px;
+  color: #2563EB;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  color: #6B7280;
+  font-size: 0.85rem;
+  border-top: 1px solid #E5E7EB;
+  background-color: #f9fafb;
+}
+
+.presenter-notes { 
+  display: none; 
+}
+
+/* استایل‌های واکنش‌گرا */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .content {
+    padding: 1.5rem;
+  }
+  
+  .intro {
+    font-size: 1.1rem;
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-container {
+    margin: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  .header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .content {
+    padding: 1.25rem;
+  }
+  
+  .intro {
+    font-size: 1rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section {
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .bullet-item {
+    padding: 0.875rem 1rem;
+  }
+  
+  .use-case-item {
+    padding: 1rem 1.25rem;
+  }
+  
+  .footer {
+    padding: 0.875rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .intro {
+    padding: 0.875rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .section {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .section-icon {
+    margin-left: 0;
+  }
+  
+  .bullet-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .bullet-icon {
+    margin-left: 0;
+  }
+  
+  .priority-tag {
+    margin-left: 0;
+    margin-bottom: 0.25rem;
+  }
+  
+  .use-case-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .use-case-title i {
+    margin-left: 0;
+  }
+  
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+  
+  .intro {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  .section-title {
+    font-size: 1rem;
+  }
+  
+  .bullet-text, .use-case-title {
+    font-size: 0.9rem;
+  }
+  
+  .priority-tag {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+}
+</style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 4; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 12;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+<div class="slide-container">
+  <div class="header">
+    <h1>نیازمندی‌ها و Use Cases</h1>
+  </div>
+  
+  <div class="content">
+    <div class="main">
+      <p class="intro">
+        تعریف دقیق نیازمندی‌ها و سناریوهای کاربردی، پایه اصلی طراحی و توسعه سیستم موفق است. استخراج صحیح این نیازها و اولویت‌بندی آنها، راهنمای تیم توسعه در طول پروژه خواهد بود.
+      </p>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-color must-have"></div>
+          Must Have (ضروری)
+        </div>
+        <div class="legend-item">
+          <div class="legend-color should-have"></div>
+          Should Have (مهم)
+        </div>
+        <div class="legend-item">
+          <div class="legend-color could-have"></div>
+          Could Have (مفید)
+        </div>
+        <div class="legend-item">
+          <div class="legend-color wont-have"></div>
+          Won't Have (فعلاً نه)
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          الزامات عملکردی
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag must-have">M</span>
+              احراز هویت کاربران و مدیریت سطوح دسترسی
+            </p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag must-have">M</span>
+              ثبت، ویرایش و مشاهده اطلاعات اصلی سیستم
+            </p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag should-have">S</span>
+              جستجوی پیشرفته با فیلترهای چندگانه
+            </p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag could-have">C</span>
+              خروجی‌گیری در قالب‌های مختلف (PDF، Excel)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          الزامات غیرعملکردی
+        </div>
+        <div class="bullet-list">
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag must-have">M</span>
+              امنیت: رمزنگاری داده‌ها، محافظت از حملات XSS و SQL Injection
+            </p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag must-have">M</span>
+              کارایی: زمان پاسخ کمتر از ۲ ثانیه برای عملیات معمول
+            </p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag should-have">S</span>
+              مقیاس‌پذیری: پشتیبانی همزمان حداقل ۵۰۰ کاربر
+            </p>
+          </div>
+          <div class="bullet-item">
+            <i class="fas fa-circle bullet-icon" style="font-size:0.5rem;"></i>
+            <p class="bullet-text">
+              <span class="priority-tag should-have">S</span>
+              دسترس‌پذیری: قابلیت دسترسی ۹۹.۵٪ در ماه
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          <div class="section-icon">
+            <i class="fas fa-user-check"></i>
+          </div>
+          سناریوهای کاربردی (Use Cases)
+        </div>
+        <div class="bullet-list">
+          <div class="use-case-item">
+            <p class="use-case-title">
+              <i class="fas fa-sign-in-alt"></i>
+              ورود کاربر به سیستم
+            </p>
+            <p class="bullet-text">
+              کاربر با وارد کردن نام کاربری و رمز عبور وارد سیستم می‌شود. سیستم اعتبارسنجی کرده و دسترسی‌های متناسب را فعال می‌کند.
+            </p>
+          </div>
+          <div class="use-case-item">
+            <p class="use-case-title">
+              <i class="fas fa-file-alt"></i>
+              ایجاد سند جدید
+            </p>
+            <p class="bullet-text">
+              کاربر فرم مربوطه را تکمیل کرده، سیستم اعتبارسنجی می‌کند و در صورت صحت، سند را ذخیره و پیام تأیید نمایش می‌دهد.
+            </p>
+          </div>
+          <div class="use-case-item">
+            <p class="use-case-title">
+              <i class="fas fa-chart-line"></i>
+              گزارش‌گیری
+            </p>
+            <p class="bullet-text">
+              کاربر پارامترهای گزارش را مشخص کرده، سیستم داده‌ها را پردازش و گزارش را در قالب موردنظر تولید می‌کند.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>فرایند از ایده تا اجرا | اسلاید ۴ از ۱۲</p>
+    <p>نیازمندی‌ها و سناریوهای کاربردی</p>
+  </div>
+
+  <div class="presenter-notes">
+    <p>نکات ارائه:</p>
+    <ul>
+      <li>تأکید کنید که اولویت‌بندی MoSCoW کمک می‌کند تا تیم توسعه بداند کدام ویژگی‌ها برای موفقیت محصول ضروری هستند</li>
+      <li>درباره تفاوت بین الزامات عملکردی و غیرعملکردی توضیح دهید</li>
+      <li>توضیح دهید که چرا سناریوهای کاربردی برای درک صحیح نیازمندی‌ها مهم هستند</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

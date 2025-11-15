@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فرایند از ایده تا اجرا - فهرست اسلایدها</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            direction: rtl;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #2563EB, #3B82F6);
+            padding: 3rem 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-20px, -20px) rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .slides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 3rem;
+        }
+
+        .slide-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #2563EB, #3B82F6);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .slide-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #2563EB;
+        }
+
+        .slide-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .slide-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #2563EB, #3B82F6);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .slide-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1E293B;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .slide-description {
+            color: #64748B;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .slide-icon {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            color: #CBD5E1;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .slide-card:hover .slide-icon {
+            color: #2563EB;
+        }
+
+        .progress-container {
+            background: #F1F5F9;
+            padding: 2rem 3rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #64748B;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #059669);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+            width: 0%;
+        }
+
+        .footer {
+            background: #1E293B;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #60A5FA;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .slides-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header {
+                padding: 2rem 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .slides-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+            
+            .progress-container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .slide-card {
+                padding: 1.5rem;
+            }
+            
+            .slide-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>فرایند از ایده تا اجرا</h1>
+            <p>سفر کامل توسعه نرم‌افزار از مفهوم اولیه تا استقرار نهایی</p>
+        </div>
+
+        <div class="slides-grid">
+            <a href="./html/slide1.html" class="slide-card">
+                <div class="slide-number">۱</div>
+                <h3 class="slide-title">معرفی پروژه و اهداف کلی</h3>
+                <p class="slide-description">آشنایی با چشم‌انداز پروژه، اهداف استراتژیک و نقشه راه کلی توسعه</p>
+                <div class="slide-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide2.html" class="slide-card">
+                <div class="slide-number">۲</div>
+                <h3 class="slide-title">تعریف ایده: مسئله و ارزش پیشنهادی</h3>
+                <p class="slide-description">شناسایی مسئله اصلی، کاربران هدف و ارزش‌های منحصر به فرد راه‌حل</p>
+                <div class="slide-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide3.html" class="slide-card">
+                <div class="slide-number">۳</div>
+                <h3 class="slide-title">تحلیل نیازمندی‌ها و کاربران</h3>
+                <p class="slide-description">جمع‌آوری و تحلیل نیازمندی‌های فنی و تجاری، تعیین پرسونای کاربران</p>
+                <div class="slide-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide4.html" class="slide-card">
+                <div class="slide-number">۴</div>
+                <h3 class="slide-title">طراحی معماری سیستم</h3>
+                <p class="slide-description">طراحی ساختار فنی، انتخاب تکنولوژی‌ها و تعیین الگوهای معماری</p>
+                <div class="slide-icon">
+                    <i class="fas fa-sitemap"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide5.html" class="slide-card">
+                <div class="slide-number">۵</div>
+                <h3 class="slide-title">طراحی دیتابیس و مدل داده</h3>
+                <p class="slide-description">طراحی اسکیمای دیتابیس، روابط موجودیت‌ها و استراتژی مدیریت داده</p>
+                <div class="slide-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide6.html" class="slide-card">
+                <div class="slide-number">۶</div>
+                <h3 class="slide-title">طراحی رابط کاربری و تجربه کاربری</h3>
+                <p class="slide-description">طراحی وایرفریم، پروتوتایپ و جریان کاربری برای تجربه بهینه</p>
+                <div class="slide-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide7.html" class="slide-card">
+                <div class="slide-number">۷</div>
+                <h3 class="slide-title">برنامه‌ریزی توسعه و زمان‌بندی</h3>
+                <p class="slide-description">تعیین مایلستون‌ها، تخمین زمان و تخصیص منابع توسعه</p>
+                <div class="slide-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide8.html" class="slide-card">
+                <div class="slide-number">۸</div>
+                <h3 class="slide-title">پیاده‌سازی و توسعه</h3>
+                <p class="slide-description">مراحل کدنویسی، استانداردهای توسعه و روش‌های همکاری تیمی</p>
+                <div class="slide-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide9.html" class="slide-card">
+                <div class="slide-number">۹</div>
+                <h3 class="slide-title">مدیریت نسخه و کنترل کد</h3>
+                <p class="slide-description">استراتژی Git، برنچینگ و مدیریت نسخه‌های نرم‌افزار</p>
+                <div class="slide-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide10.html" class="slide-card">
+                <div class="slide-number">۱۰</div>
+                <h3 class="slide-title">تست و تضمین کیفیت</h3>
+                <p class="slide-description">استراتژی تست، انواع تست‌ها و فرآیندهای تضمین کیفیت</p>
+                <div class="slide-icon">
+                    <i class="fas fa-vial"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide11.html" class="slide-card">
+                <div class="slide-number">۱۱</div>
+                <h3 class="slide-title">دیپلوی و استقرار</h3>
+                <p class="slide-description">پایپلاین CI/CD، استراتژی‌های استقرار و مدیریت محیط‌ها</p>
+                <div class="slide-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+            </a>
+
+            <a href="./html/slide12.html" class="slide-card">
+                <div class="slide-number">۱۲</div>
+                <h3 class="slide-title">جمع‌بندی و قدم بعدی</h3>
+                <p class="slide-description">مرور کلی فرآیند، درس‌های آموخته شده و برنامه‌های آینده</p>
+                <div class="slide-icon">
+                    <i class="fas fa-flag-checkered"></i>
+                </div>
+            </a>
+        </div>
+
+        
+
+        <div class="footer">
+            <p>فرایند از ایده تا اجرا - ارائه توسط سید علیرضا صفوی(AT)</p>
+            <p>طراحی شده با ❤️ برای ارائه در کلاس طراحی زبان برنامه نویسی</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // شبیه‌سازی پیشرفت بر اساس اسلایدهای دیده شده
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercentage = document.getElementById('progress-percentage');
+            
+            // شبیه‌سازی - در حالت واقعی این مقدار از localStorage یا سرور می‌آید
+            let viewedSlides = 0; // تعداد اسلایدهای دیده شده
+            
+            // برای دمو، فرض می‌کنیم اسلاید اول دیده شده
+            viewedSlides = 1;
+            
+            const totalSlides = 12;
+            const progress = (viewedSlides / totalSlides) * 100;
+            
+            
+            
+            // اضافه کردن انیمیشن hover به کارت‌ها
+            const cards = document.querySelectorAll('.slide-card');
+            cards.forEach((card, index) => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+                
+                // اگر اسلاید دیده شده باشد، استایل متفاوت نشان دهید
+                if (index < viewedSlides) {
+                    card.style.borderColor = '#10B981';
+                    card.querySelector('.slide-number').style.background = 'linear-gradient(135deg, #10B981, #059669)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
