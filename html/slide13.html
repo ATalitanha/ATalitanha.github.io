@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+    <title>سیستم مدیریت PDF ها</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .pdf-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .pdf-button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+        
+        .pdf-button.secondary {
+            background: var(--secondary-color);
+        }
+        
+        .pdf-button.success {
+            background: var(--success-color);
+        }
+        
+        .pdf-viewer-container {
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 700px;
+            border: 3px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-pdf {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: #6c757d;
+            font-size: 20px;
+            background: #f8f9fa;
+            border: 3px dashed #dee2e6;
+            border-radius: 10px;
+        }
+        
+        .current-pdf {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #495057;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .pdf-viewer {
+                height: 500px;
+            }
+            
+            .pdf-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation-buttons">
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 13; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 13;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
+    <div class="container">
+        <h1>📚 سیستم مدیریت PDF ها</h1>
+        
+        <div class="button-container">
+            <button class="pdf-button" onclick="showPDF('../pdf/slide2.pdf', 'PDF اول')">📄 PDF اسلاید دوم</button>
+            <button class="pdf-button secondary" onclick="showPDF('../pdf/slide3.pdf', 'PDF دوم')">📄 PDF اسلاید سوم</button>
+            <button class="pdf-button success" onclick="showPDF('../pdf/slide4.pdf', 'PDF سوم')">📄 PDF اسلاید چهارم</button>
+            <!-- اضافه کردن PDF های بیشتر -->
+            <button class="pdf-button" onclick="showPDF('../pdf/slide5.pdf', 'PDF چهارم')">📄 PDF اسلابد پنجم</button>
+            <button class="pdf-button secondary" onclick="showPDF('../pdf/slide6.pdf', 'PDF پنجم')">📄 PDF اسلاید ششم</button>
+            <button class="pdf-button secondary" onclick="showPDF('../pdf/slide7.pdf', 'PDF پنجم')">📄 PDF اسلاید هفتم</button>
+        </div>
+        
+        <div class="pdf-viewer-container">
+            <div class="current-pdf" id="currentPdfName">
+                لطفاً یک PDF را انتخاب کنید
+            </div>
+            <div id="pdfContainer">
+                <div class="no-pdf">
+                    🎯 برای شروع، یکی از PDF های بالا را انتخاب کنید
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPDF(pdfFile, pdfName) {
+            const pdfContainer = document.getElementById('pdfContainer');
+            const currentPdfName = document.getElementById('currentPdfName');
+            
+            // به روز رسانی نام PDF جاری
+            currentPdfName.textContent = `PDF در حال نمایش: ${pdfName}`;
+            
+            // ایجاد iframe برای نمایش PDF
+            pdfContainer.innerHTML = `
+                <iframe class="pdf-viewer" src="${pdfFile}#toolbar=1&navpanes=1&scrollbar=1" type="application/pdf">
+                    <div style="padding: 20px; text-align: center;">
+                        <p>مرورگر شما از نمایش مستقیم PDF پشتیبانی نمی‌کند.</p>
+                        <a href="${pdfFile}" target="_blank" style="color: #007bff; text-decoration: none;">
+                            برای مشاهده PDF اینجا کلیک کنید
+                        </a>
+                    </div>
+                </iframe>
+            `;
+        }
+        
+        // نمایش اولین PDF به صورت خودکار (اختیاری)
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     showPDF('pdf1.pdf', 'PDF اول');
+        // });
+    </script>
+</body>
+</html>
