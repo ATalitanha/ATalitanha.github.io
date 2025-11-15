@@ -208,86 +208,13 @@
             font-size: 18px;
         }
         
-        /* ناوبری اسلایدها */
-        .navigation-buttons {
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            right: 20px;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            z-index: 1000;
-        }
         
-        .nav-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
         
-        .nav-btn:hover {
-            background: #0056b3;
-            transform: scale(1.1);
-        }
         
-        .nav-btn:hover .nav-tooltip {
-            opacity: 1;
-            transform: translateX(0);
-        }
+       
         
-        .nav-btn.prev {
-            transform: rotate(180deg);
-        }
         
-        .nav-btn.prev:hover {
-            transform: rotate(180deg) scale(1.1);
-        }
-        
-        .nav-btn.disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        
-        .nav-btn.disabled:hover {
-            transform: none;
-            background: #ccc;
-        }
-        
-        .nav-tooltip {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-        
-        .nav-btn.prev .nav-tooltip {
-            right: 70px;
-            transform: translateX(-10px);
-        }
-        
-        .nav-btn.next .nav-tooltip {
-            left: 70px;
-            transform: translateX(10px);
-        }
-
+       
         @media (max-width: 768px) {
             .pdf-viewer {
                 height: 500px;
@@ -303,34 +230,83 @@
                 align-items: stretch;
             }
             
-            .control-group {
-                justify-content: center;
-            }
             
-            .navigation-buttons {
-                left: 10px;
-                right: 10px;
-            }
-            
-            .nav-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 16px;
-            }
+        }
+        .myPrimary {
+            background-color: #ff0000;
+            font-size: 24px;
+            font-style: italic;
+            font-weight: 900;
+        }
+        .myPrimary:hover {
+            background: #000;
         }
     </style>
 </head>
 <body>
     <div class="navigation-buttons">
-        <button class="nav-btn prev" onclick="navigateTo('slide12.html')">
-            <i class="fas fa-chevron-right"></i>
-            <div class="nav-tooltip">اسلاید قبلی</div>
-        </button>
-        <button class="nav-btn next" onclick="navigateTo('slide14.html')">
-            <i class="fas fa-chevron-left"></i>
-            <div class="nav-tooltip">اسلاید بعدی</div>
-        </button>
-    </div>
+    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
+        <i class="fas fa-chevron-right"></i>
+        <div class="nav-tooltip">اسلاید قبلی</div>
+    </button>
+    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
+        <i class="fas fa-chevron-left"></i>
+        <div class="nav-tooltip">اسلاید بعدی</div>
+    </button>
+</div>
+<script>
+// تابع ناوبری بین اسلایدها
+function navigateTo(slide) {
+    window.location.href = slide;
+}
+
+// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+document.addEventListener('DOMContentLoaded', function() {
+    const currentSlide = 12; // این عدد را برای هر اسلاید تغییر دهید
+    const totalSlides = 13;
+    
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+    
+    // آپدیت لینک‌ها بر اساس اسلاید فعلی
+    if (currentSlide > 1) {
+        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+    }
+    
+    if (currentSlide < totalSlides) {
+        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+    }
+    
+    // غیرفعال کردن دکمه قبلی در اسلاید اول
+    if (currentSlide === 1) {
+        prevBtn.classList.add('disabled');
+        prevBtn.onclick = null;
+        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
+        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
+        prevBtn.onclick = () => navigateTo('index.html');
+        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+        prevBtn.classList.remove('disabled');
+    }
+    
+    // غیرفعال کردن دکمه بعدی در اسلاید آخر
+    if (currentSlide === totalSlides) {
+        nextBtn.classList.add('disabled');
+        nextBtn.onclick = null;
+        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+    }
+
+    // افزودن قابلیت کیبورد
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight' && currentSlide > 1) {
+            navigateTo(`slide${currentSlide - 1}.html`);
+        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+            navigateTo(`slide${currentSlide + 1}.html`);
+        } else if (event.key === 'Escape') {
+            navigateTo('index.html');
+        }
+    });
+});
+</script>
 
     <div class="container">
         <h1>📚 سیستم مدیریت PDF ها</h1>
@@ -342,6 +318,7 @@
             <button class="pdf-button" onclick="loadPDF('../pdf/slide5.pdf', 'PDF اسلاید پنجم')">📄 PDF اسلاید پنجم</button>
             <button class="pdf-button secondary" onclick="loadPDF('../pdf/slide6.pdf', 'PDF اسلاید ششم')">📄 PDF اسلاید ششم</button>
             <button class="pdf-button secondary" onclick="loadPDF('../pdf/slide7.pdf', 'PDF اسلاید هفتم')">📄 PDF اسلاید هفتم</button>
+            <button class="pdf-button myPrimary"><a href="https://tanhaapp.vercel.app/">پروژه خودم به عنوان نمونه سیستم پیاده شده</a></button>
         </div>
         
         <!-- کنترل‌های PDF -->
