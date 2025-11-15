@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="output.css">
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
     <title>سیستم مدیریت PDF ها</title>
     <style>
         :root {
             --primary-color: #007bff;
             --secondary-color: #6c757d;
             --success-color: #28a745;
+            --danger-color: #dc3545;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -24,7 +25,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -60,6 +61,7 @@
             font-size: 16px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            font-family: inherit;
         }
         
         .pdf-button:hover {
@@ -76,18 +78,114 @@
             background: var(--success-color);
         }
         
+        /* کنترل‌های PDF */
+        .pdf-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .control-btn:hover {
+            background: #545b62;
+        }
+        
+        .control-btn.primary {
+            background: var(--primary-color);
+        }
+        
+        .control-btn.success {
+            background: var(--success-color);
+        }
+        
+        .control-btn.danger {
+            background: var(--danger-color);
+        }
+        
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .zoom-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .zoom-btn:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .zoom-level {
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .page-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-info {
+            font-weight: bold;
+            min-width: 100px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
         .pdf-viewer-container {
             position: relative;
             margin-top: 20px;
+            border: 3px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
         }
         
         .pdf-viewer {
             width: 100%;
             height: 700px;
-            border: 3px solid #e9ecef;
-            border-radius: 10px;
+            border: none;
             background: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .no-pdf {
@@ -107,8 +205,89 @@
             margin-bottom: 10px;
             color: #495057;
             font-weight: bold;
+            font-size: 18px;
         }
         
+        /* ناوبری اسلایدها */
+        .navigation-buttons {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            right: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .nav-btn:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .nav-btn:hover .nav-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .nav-btn.prev {
+            transform: rotate(180deg);
+        }
+        
+        .nav-btn.prev:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+        
+        .nav-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .nav-btn.disabled:hover {
+            transform: none;
+            background: #ccc;
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .nav-btn.prev .nav-tooltip {
+            right: 70px;
+            transform: translateX(-10px);
+        }
+        
+        .nav-btn.next .nav-tooltip {
+            left: 70px;
+            transform: translateX(10px);
+        }
+
         @media (max-width: 768px) {
             .pdf-viewer {
                 height: 500px;
@@ -118,84 +297,90 @@
                 padding: 12px 20px;
                 font-size: 14px;
             }
+            
+            .pdf-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .control-group {
+                justify-content: center;
+            }
+            
+            .navigation-buttons {
+                left: 10px;
+                right: 10px;
+            }
+            
+            .nav-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="navigation-buttons">
-    <button class="nav-btn prev" onclick="navigateTo('slide1.html')">
-        <i class="fas fa-chevron-right"></i>
-        <div class="nav-tooltip">اسلاید قبلی</div>
-    </button>
-    <button class="nav-btn next" onclick="navigateTo('slide3.html')">
-        <i class="fas fa-chevron-left"></i>
-        <div class="nav-tooltip">اسلاید بعدی</div>
-    </button>
-</div>
-<script>
-// تابع ناوبری بین اسلایدها
-function navigateTo(slide) {
-    window.location.href = slide;
-}
+        <button class="nav-btn prev" onclick="navigateTo('slide12.html')">
+            <i class="fas fa-chevron-right"></i>
+            <div class="nav-tooltip">اسلاید قبلی</div>
+        </button>
+        <button class="nav-btn next" onclick="navigateTo('slide14.html')">
+            <i class="fas fa-chevron-left"></i>
+            <div class="nav-tooltip">اسلاید بعدی</div>
+        </button>
+    </div>
 
-// مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
-document.addEventListener('DOMContentLoaded', function() {
-    const currentSlide = 13; // این عدد را برای هر اسلاید تغییر دهید
-    const totalSlides = 13;
-    
-    const prevBtn = document.querySelector('.nav-btn.prev');
-    const nextBtn = document.querySelector('.nav-btn.next');
-    
-    // آپدیت لینک‌ها بر اساس اسلاید فعلی
-    if (currentSlide > 1) {
-        prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
-    }
-    
-    if (currentSlide < totalSlides) {
-        nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
-    }
-    
-    // غیرفعال کردن دکمه قبلی در اسلاید اول
-    if (currentSlide === 1) {
-        prevBtn.classList.add('disabled');
-        prevBtn.onclick = null;
-        prevBtn.querySelector('.nav-tooltip').textContent = 'شما در اولین اسلاید هستید';
-        // برای اسلاید اول، دکمه قبلی به صفحه اصلی برود
-        prevBtn.onclick = () => navigateTo('index.html');
-        prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
-        prevBtn.classList.remove('disabled');
-    }
-    
-    // غیرفعال کردن دکمه بعدی در اسلاید آخر
-    if (currentSlide === totalSlides) {
-        nextBtn.classList.add('disabled');
-        nextBtn.onclick = null;
-        nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
-    }
-
-    // افزودن قابلیت کیبورد
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'ArrowRight' && currentSlide > 1) {
-            navigateTo(`slide${currentSlide - 1}.html`);
-        } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
-            navigateTo(`slide${currentSlide + 1}.html`);
-        } else if (event.key === 'Escape') {
-            navigateTo('index.html');
-        }
-    });
-});
-</script>
     <div class="container">
         <h1>📚 سیستم مدیریت PDF ها</h1>
         
         <div class="button-container">
-            <button class="pdf-button" onclick="showPDF('../pdf/slide2.pdf', 'PDF اول')">📄 PDF اسلاید دوم</button>
-            <button class="pdf-button secondary" onclick="showPDF('../pdf/slide3.pdf', 'PDF دوم')">📄 PDF اسلاید سوم</button>
-            <button class="pdf-button success" onclick="showPDF('../pdf/slide4.pdf', 'PDF سوم')">📄 PDF اسلاید چهارم</button>
-            <!-- اضافه کردن PDF های بیشتر -->
-            <button class="pdf-button" onclick="showPDF('../pdf/slide5.pdf', 'PDF چهارم')">📄 PDF اسلابد پنجم</button>
-            <button class="pdf-button secondary" onclick="showPDF('../pdf/slide6.pdf', 'PDF پنجم')">📄 PDF اسلاید ششم</button>
-            <button class="pdf-button secondary" onclick="showPDF('../pdf/slide7.pdf', 'PDF پنجم')">📄 PDF اسلاید هفتم</button>
+            <button class="pdf-button" onclick="loadPDF('../pdf/slide2.pdf', 'PDF اسلاید دوم')">📄 PDF اسلاید دوم</button>
+            <button class="pdf-button secondary" onclick="loadPDF('../pdf/slide3.pdf', 'PDF اسلاید سوم')">📄 PDF اسلاید سوم</button>
+            <button class="pdf-button success" onclick="loadPDF('../pdf/slide4.pdf', 'PDF اسلاید چهارم')">📄 PDF اسلاید چهارم</button>
+            <button class="pdf-button" onclick="loadPDF('../pdf/slide5.pdf', 'PDF اسلاید پنجم')">📄 PDF اسلاید پنجم</button>
+            <button class="pdf-button secondary" onclick="loadPDF('../pdf/slide6.pdf', 'PDF اسلاید ششم')">📄 PDF اسلاید ششم</button>
+            <button class="pdf-button secondary" onclick="loadPDF('../pdf/slide7.pdf', 'PDF اسلاید هفتم')">📄 PDF اسلاید هفتم</button>
+        </div>
+        
+        <!-- کنترل‌های PDF -->
+        <div class="pdf-controls" id="pdfControls" style="display: none;">
+            <div class="control-group">
+                <button class="control-btn primary" onclick="downloadPDF()">
+                    <i class="fas fa-download"></i> دانلود
+                </button>
+                <button class="control-btn" onclick="printPDF()">
+                    <i class="fas fa-print"></i> چاپ
+                </button>
+                <button class="control-btn danger" onclick="closePDF()">
+                    <i class="fas fa-times"></i> بستن
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="zoomOut()">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <span class="zoom-level" id="zoomLevel">100%</span>
+                    <button class="zoom-btn" onclick="zoomIn()">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <div class="page-controls">
+                    <button class="control-btn" onclick="previousPage()" id="prevPageBtn">
+                        <i class="fas fa-chevron-right"></i> قبلی
+                    </button>
+                    <span class="page-info" id="pageInfo">صفحه 1 از 1</span>
+                    <button class="control-btn" onclick="nextPage()" id="nextPageBtn">
+                        بعدی <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         
         <div class="pdf-viewer-container">
@@ -211,16 +396,26 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <script>
-        function showPDF(pdfFile, pdfName) {
+        let currentPDF = '';
+        let currentZoom = 100;
+        let currentPage = 1;
+        let totalPages = 1;
+
+        function loadPDF(pdfFile, pdfName) {
             const pdfContainer = document.getElementById('pdfContainer');
             const currentPdfName = document.getElementById('currentPdfName');
+            const pdfControls = document.getElementById('pdfControls');
             
-            // به روز رسانی نام PDF جاری
+            currentPDF = pdfFile;
             currentPdfName.textContent = `PDF در حال نمایش: ${pdfName}`;
+            pdfControls.style.display = 'flex';
             
-            // ایجاد iframe برای نمایش PDF
+            // ایجاد iframe برای نمایش PDF با کنترل‌های کامل
             pdfContainer.innerHTML = `
-                <iframe class="pdf-viewer" src="${pdfFile}#toolbar=1&navpanes=1&scrollbar=1" type="application/pdf">
+                <iframe class="pdf-viewer" 
+                        id="pdfFrame" 
+                        src="${pdfFile}#toolbar=1&navpanes=1&scrollbar=1&zoom=100" 
+                        type="application/pdf">
                     <div style="padding: 20px; text-align: center;">
                         <p>مرورگر شما از نمایش مستقیم PDF پشتیبانی نمی‌کند.</p>
                         <a href="${pdfFile}" target="_blank" style="color: #007bff; text-decoration: none;">
@@ -229,12 +424,171 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </iframe>
             `;
+            
+            // ریست کردن مقادیر
+            currentZoom = 100;
+            currentPage = 1;
+            updateZoomDisplay();
+            updatePageDisplay();
         }
-        
-        // نمایش اولین PDF به صورت خودکار (اختیاری)
-        // document.addEventListener('DOMContentLoaded', function() {
-        //     showPDF('pdf1.pdf', 'PDF اول');
-        // });
+
+        function zoomIn() {
+            if (currentZoom < 200) {
+                currentZoom += 10;
+                updatePDFZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > 50) {
+                currentZoom -= 10;
+                updatePDFZoom();
+            }
+        }
+
+        function updatePDFZoom() {
+            const pdfFrame = document.getElementById('pdfFrame');
+            if (pdfFrame) {
+                // تغییر زوم با تغییر پارامتر URL
+                const newSrc = currentPDF + `#toolbar=1&navpanes=1&scrollbar=1&zoom=${currentZoom}`;
+                pdfFrame.src = newSrc;
+                updateZoomDisplay();
+            }
+        }
+
+        function updateZoomDisplay() {
+            document.getElementById('zoomLevel').textContent = `${currentZoom}%`;
+        }
+
+        function updatePageDisplay() {
+            document.getElementById('pageInfo').textContent = `صفحه ${currentPage} از ${totalPages}`;
+            
+            // به روزرسانی وضعیت دکمه‌ها
+            document.getElementById('prevPageBtn').disabled = currentPage <= 1;
+            document.getElementById('nextPageBtn').disabled = currentPage >= totalPages;
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                navigateToPage();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                navigateToPage();
+            }
+        }
+
+        function navigateToPage() {
+            const pdfFrame = document.getElementById('pdfFrame');
+            if (pdfFrame) {
+                // برای تغییر صفحه می‌توان از پارامتر #page=X استفاده کرد
+                const newSrc = currentPDF + `#toolbar=1&navpanes=1&scrollbar=1&zoom=${currentZoom}&page=${currentPage}`;
+                pdfFrame.src = newSrc;
+                updatePageDisplay();
+            }
+        }
+
+        function downloadPDF() {
+            if (currentPDF) {
+                // ایجاد لینک دانلود
+                const link = document.createElement('a');
+                link.href = currentPDF;
+                link.download = currentPDF.split('/').pop();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        function printPDF() {
+            const pdfFrame = document.getElementById('pdfFrame');
+            if (pdfFrame && pdfFrame.contentWindow) {
+                pdfFrame.contentWindow.print();
+            }
+        }
+
+        function closePDF() {
+            const pdfContainer = document.getElementById('pdfContainer');
+            const currentPdfName = document.getElementById('currentPdfName');
+            const pdfControls = document.getElementById('pdfControls');
+            
+            pdfContainer.innerHTML = `
+                <div class="no-pdf">
+                    🎯 برای شروع، یکی از PDF های بالا را انتخاب کنید
+                </div>
+            `;
+            currentPdfName.textContent = 'لطفاً یک PDF را انتخاب کنید';
+            pdfControls.style.display = 'none';
+            currentPDF = '';
+        }
+
+        // تابع ناوبری بین اسلایدها
+        function navigateTo(slide) {
+            window.location.href = slide;
+        }
+
+        // مدیریت وضعیت دکمه‌ها بر اساس اسلاید فعلی
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentSlide = 13;
+            const totalSlides = 13;
+            
+            const prevBtn = document.querySelector('.nav-btn.prev');
+            const nextBtn = document.querySelector('.nav-btn.next');
+            
+            // آپدیت لینک‌ها بر اساس اسلاید فعلی
+            if (currentSlide > 1) {
+                prevBtn.onclick = () => navigateTo(`slide${currentSlide - 1}.html`);
+            }
+            
+            if (currentSlide < totalSlides) {
+                nextBtn.onclick = () => navigateTo(`slide${currentSlide + 1}.html`);
+            }
+            
+            // برای اسلاید اول
+            if (currentSlide === 1) {
+                prevBtn.onclick = () => navigateTo('index.html');
+                prevBtn.querySelector('.nav-tooltip').textContent = 'بازگشت به صفحه اصلی';
+            }
+            
+            // غیرفعال کردن دکمه بعدی در اسلاید آخر
+            if (currentSlide === totalSlides) {
+                nextBtn.classList.add('disabled');
+                nextBtn.onclick = null;
+                nextBtn.querySelector('.nav-tooltip').textContent = 'شما در آخرین اسلاید هستید';
+            }
+
+            // افزودن قابلیت کیبورد
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowRight' && currentSlide > 1) {
+                    navigateTo(`slide${currentSlide - 1}.html`);
+                } else if (event.key === 'ArrowLeft' && currentSlide < totalSlides) {
+                    navigateTo(`slide${currentSlide + 1}.html`);
+                } else if (event.key === 'Escape') {
+                    navigateTo('index.html');
+                }
+                
+                // کنترل‌های PDF با کیبورد
+                if (currentPDF) {
+                    if (event.ctrlKey && event.key === '+') {
+                        event.preventDefault();
+                        zoomIn();
+                    } else if (event.ctrlKey && event.key === '-') {
+                        event.preventDefault();
+                        zoomOut();
+                    } else if (event.key === 'ArrowUp' && event.ctrlKey) {
+                        event.preventDefault();
+                        previousPage();
+                    } else if (event.key === 'ArrowDown' && event.ctrlKey) {
+                        event.preventDefault();
+                        nextPage();
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
